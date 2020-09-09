@@ -4,9 +4,16 @@
       <navigation-menu />
     </v-navigation-drawer>
 
-    <v-app-bar app color="primary lighten-1" dark>
+    <v-app-bar app color="light-green lighten-0" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title><v-icon>fas fa-tooth</v-icon>{{pageTitle}}</v-toolbar-title>
+      <v-toolbar-title>
+        {{pageTitle}}
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <span class="user-name" style="margin-right: 15px">Fulano de Tal</span>
+      <v-avatar color="indigo">
+        <v-icon dark>mdi-account-circle</v-icon>
+      </v-avatar>
     </v-app-bar>
 
     <v-main class="grey lighten-4">
@@ -18,30 +25,30 @@
         </v-row>
       </v-container>
     </v-main>
-    <v-footer color="primary lighten-0" app>
+    <v-footer color="light-green lighten-0" app>
       <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-// import NavigationMenu from "./components/NavigationMenu.vue";
+import NavigationMenu from "./components/NavigationMenu.vue";
 export default {
   name: "App",
   components: {
-    // NavigationMenu
+    NavigationMenu
   },
   props: {
-    source: String
+    source: String,
   },
   data: () => ({
-    drawer: false,
-    pageTitle: 'Ajude.me'
+    drawer: true,
+    pageTitle: "Ajude.me",
   }),
   methods: {
     updatePageTitle(title) {
       this.pageTitle = title;
-    }
-  }
+    },
+  },
 };
 </script>
