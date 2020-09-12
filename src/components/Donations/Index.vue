@@ -154,7 +154,7 @@ export default {
       this.editingDonation = Object.assign({}, donation);
     },
     async deleteDonation(id) {
-      let errorMessage = "Não foi possível remover o paciente 😞";
+      let errorMessage = "Não foi possível executar a remoção 😞";
       this.loading = true;
       try {
         await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
@@ -164,7 +164,7 @@ export default {
           (donation) => donation.id !== id
         );
         this.loading = false;
-        this.successMessage = "O usuário foi removido com sucesso 😁";
+        this.successMessage = "Removido com sucesso 😁";
         this.success = true;
       } catch (error) {
         console.error(error);

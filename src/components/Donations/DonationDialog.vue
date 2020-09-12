@@ -106,14 +106,14 @@ export default {
         const data = await response.json();
         this.loading = false;
         this.success = true;
-        this.successMessage = "Paciente criado com sucesso 😁";
+        this.successMessage = "Criado com sucesso, obrigado pela sua ajuda! 😁";
         this.donation.id = data.id;
         this.editing = true;
         this.$emit("add:donation", data);
       } catch (error) {
         this.loading = false;
         this.error = true;
-        this.errorMessage = "Não foi possível criar o paciente 😞";
+        this.errorMessage = "Não foi possível criar 😞";
         this.$emit("set:editing-donation", this.donationObj);
         console.error(error);
       }
@@ -135,11 +135,11 @@ export default {
         this.$emit("edit:donation", id, data);
         this.loading = false;
         this.success = true;
-        this.successMessage = "Paciente salvo com sucesso 😁";
+        this.successMessage = "Salvo com sucesso 😁";
       } catch (error) {
         this.loading = false;
         this.error = true;
-        this.errorMessage = "Não foi possível alterar o paciente 😟";
+        this.errorMessage = "Não foi possível alterar 😟";
         this.$emit("set:editing-donation", this.donationObj);
         console.error(error);
       }

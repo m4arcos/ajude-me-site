@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import DonationsCarousel from "../Donations/Carousel.vue";
+import DonationsCarousel from "../DonationsCarousel.vue";
 
 export default {
   name: "home-index",
