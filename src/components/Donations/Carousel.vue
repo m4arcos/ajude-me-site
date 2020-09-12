@@ -4,7 +4,7 @@
     <v-slide-group v-model="model" class="pa-4 carousel-group" show-arrows>
       <v-slide-item v-for="item in items" :key="item.id" v-slot:default="{ active, toggle }">
         <v-card
-          :color="active ? 'light-green' : 'light-green lighten-1'"
+          :color="active ? 'cardsSelectedBG' : 'cardsBG'"
           class="ma-4"
           height="200"
           width="300"

@@ -24,9 +24,9 @@ export default {
           title: "Home"
         },
         {
-          route: "hello-world",
-          icon: "fas fa-users",
-          title: "Pessoas"
+          route: "donations",
+          icon: "fas fa-heart",
+          title: "Quero ajudar"
         },
         {
           route: "data-table",

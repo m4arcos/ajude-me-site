@@ -16,7 +16,7 @@ const router = new VueRouter({ mode: 'history', routes });
 Vue.use(vuetify, {
   icons: {
     iconfont: 'fa',
-  },
+  }
 })
 
 new Vue({

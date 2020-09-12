@@ -4,19 +4,19 @@
       <navigation-menu />
     </v-navigation-drawer>
 
-    <v-app-bar app color="light-green lighten-0" dark>
+    <v-app-bar app color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         {{pageTitle}}
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <span class="user-name" style="margin-right: 15px">Fulano de Tal</span>
-      <v-avatar color="indigo">
+      <v-avatar color="secondary">
         <v-icon dark>mdi-account-circle</v-icon>
       </v-avatar>
     </v-app-bar>
 
-    <v-main class="grey lighten-4">
+    <v-main class="bodyBgColor">
       <v-container fluid>
         <v-row align="center" justify="center">
           <v-col class="text-center">
@@ -25,7 +25,7 @@
         </v-row>
       </v-container>
     </v-main>
-    <v-footer color="light-green lighten-0" app>
+    <v-footer color="secondary" app>
       <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
