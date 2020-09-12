@@ -1,13 +1,13 @@
 <template>
   <v-container fluid>
-    <v-row align="center" justify="center">
+    <v-row v-if="donations.items.length > 0" align="center" justify="center">
       <v-col cols="12">
         <donations-carousel
         :title="donations.title"
         :items="donations.items" />
       </v-col>
     </v-row>
-    <v-row align="center" justify="center">
+    <v-row v-if="needsHelp.items.length > 0" align="center" justify="center">
       <v-col cols="12">
         <donations-carousel
         :title="needsHelp.title"
@@ -29,60 +29,49 @@ export default {
     return {
       donations: {
         title: "Para doação",
-        items: [
-          {
-            title: "Título 1",
-            summary: "Estou disponível para doação",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-          {
-            title: "Título 2",
-            summary: "Estou disponível para doação",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-          {
-            title: "Título 3",
-            summary: "Estou disponível para doação",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-          {
-            title: "Título 4",
-            summary: "Estou disponível para doação",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-        ]
+        items: []
       },
       needsHelp: {
         title: "Preciso de ajuda",
-        items: [
-          {
-            title: "Preciso de ajuda 1",
-            summary: "Estou precisando de ajuda",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-          {
-            title: "Preciso de ajuda 2",
-            summary: "Estou precisando de ajuda",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-          {
-            title: "Preciso de ajuda 3",
-            summary: "Estou precisando de ajuda",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-          {
-            title: "Preciso de ajuda 4",
-            summary: "Estou precisando de ajuda",
-            text: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
-          },
-        ]
+        items: []
       },
     };
   },
   mounted() {
     this.$emit("update:pageTitle", "Ajude.me");
+    this.getDonations();
+    this.getNeedsHelp();
   },
   methods: {
+
+    async getDonations() {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/mocks/donations.json"
+        );
+
+        const data = await response.json();
+
+        this.donations.items = data.items;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getNeedsHelp() {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/mocks/needsHelp.json"
+        );
+
+        const data = await response.json();
+
+        this.needsHelp.items = data.items;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
   },
 };
 </script>
