@@ -29,8 +29,8 @@ export default {
           title: "Quero ajudar"
         },
         {
-          route: "data-table",
-          icon: "mdi-table",
+          route: "ongs",
+          icon: "mdi-account-group",
           title: "ONGs"
         },
         {
