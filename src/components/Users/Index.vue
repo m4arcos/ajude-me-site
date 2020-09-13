@@ -87,6 +87,7 @@ export default {
       headers: [
         { text: "ID", value: "id" },
         { text: "Nome", value: "name" },
+        { text: "E-mail", value: "mail" },
         { text: "Actions", value: "actions", sortable: false },
       ],
     };
