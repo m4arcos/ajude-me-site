@@ -4,14 +4,16 @@
       <v-col cols="12">
         <donations-carousel
         :title="donations.title"
-        :items="donations.items" />
+        :items="donations.items"
+        :icon="donations.icon" />
       </v-col>
     </v-row>
     <v-row v-if="needsHelp.items.length > 0" align="center" justify="center">
       <v-col cols="12">
         <donations-carousel
         :title="needsHelp.title"
-        :items="needsHelp.items" />
+        :items="needsHelp.items"
+        :icon="needsHelp.icon" />
       </v-col>
     </v-row>
   </v-container>
@@ -29,10 +31,12 @@ export default {
     return {
       donations: {
         title: "Para doação",
+        icon: "fas fa-hand-holding-heart",
         items: []
       },
       needsHelp: {
         title: "Preciso de ajuda",
+        icon: "fas fa-hands",
         items: []
       },
     };
@@ -61,7 +65,7 @@ export default {
     async getNeedsHelp() {
       try {
         const response = await fetch(
-          "http://localhost:8080/mocks/needsHelp.json"
+          "http://localhost:8080/mocks/needs.json"
         );
 
         const data = await response.json();

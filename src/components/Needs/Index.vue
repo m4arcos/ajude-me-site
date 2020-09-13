@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card elevation="3">
           <v-card-title>
-            <span>ONGs</span>
+            <span>Preciso de ajuda!</span>
             <v-spacer></v-spacer>
             <v-text-field
               v-model="search"
@@ -15,20 +15,20 @@
             ></v-text-field>
             <v-spacer></v-spacer>
 
-            <ong-dialog
-              ref="ongDialog"
-              :ong="editingOng"
-              :ongs="ongs"
+            <need-dialog
+              ref="needDialog"
+              :need="editingNeed"
+              :needs="needs"
               :editing="editing"
-              @add:ong="addOng"
-              @edit:ong="editOng"
-              @set:editing-ong="setEditingOng"
+              @add:need="addNeed"
+              @edit:need="editNeed"
+              @set:editing-need="setEditingNeed"
             />
           </v-card-title>
           <v-data-table
             class="elevation-1"
             :headers="headers"
-            :items="ongs"
+            :items="needs"
             :search="search"
             :loading="loading"
             loading-text="Buscando os dados..."
@@ -38,7 +38,7 @@
             <v-alert v-if="error" type="error">{{ errorMessage }}</v-alert>
             <template v-slot:item.actions="{ item }">
               <v-icon small class="mr-2" @click="editMode(item)">mdi-pencil</v-icon>
-              <v-icon small @click="deleteOng(item.id)">mdi-delete</v-icon>
+              <v-icon small @click="deleteNeed(item.id)">mdi-delete</v-icon>
             </template>
           </v-data-table>
         </v-card>
@@ -60,15 +60,15 @@
 </template>
 
 <script>
-import OngDialog from "@/components/Ongs/OngDialog.vue";
+import NeedDialog from "@/components/Needs/NeedDialog.vue";
 export default {
-  name: "ongs-index",
+  name: "needs-index",
   components: {
-    OngDialog,
+    NeedDialog,
   },
   data() {
     return {
-      ongs: [],
+      needs: [],
       search: "",
       loading: false,
       editing: false,
@@ -76,47 +76,47 @@ export default {
       successMessage: "",
       error: false,
       errorMessage: "",
-      editingOng: {},
-      ongObj: {
+      editingNeed: {},
+      needObj: {
         id: null,
-        name: "",
-        owner: "",
-        mail: "",
-        phone: "",
-        cellphone: "",
+        title: "",
+        summary: "",
+        text: "",
+        userId: "",
       },
       headers: [
         { text: "ID", value: "id" },
-        { text: "Nome", value: "name" },
-        { text: "Responsável", value: "owner" },
+        { text: "Titulo", value: "title" },
+        { text: "Resumo", value: "summary" },
         { text: "Actions", value: "actions", sortable: false },
       ],
     };
   },
   mounted() {
-    this.editingOng = Object.assign({}, this.ongObj);
-    this.$emit("update:pageTitle", "ONGs");
-    this.getOngs();
+    this.editingNeed = Object.assign({}, this.needObj);
+    this.$emit("update:pageTitle", "Quero ajudar!");
+    this.getNeeds();
   },
   methods: {
-    async getOngs() {
+    async getNeeds() {
       this.loading = true;
       let errorMessage = "Não foi possível buscar os dados 😞";
       try {
-        const response = await fetch("http://localhost:8080/mocks/ongs.json");
+        const response = await fetch(
+          "http://localhost:8080/mocks/needs.json"
+        );
         if (response.ok) {
           const data = await response.json();
           const items = data["items"];
           for (var key in items) {
-            this.ongs = [
-              ...this.ongs,
+            this.needs = [
+              ...this.needs,
               {
                 id: items[key].id,
-                name: items[key].name,
-                owner: items[key].owner,
-                mail: items[key].mail,
-                phone: items[key].phone,
-                cellphone: items[key].cellphone,
+                title: items[key].title,
+                summary: items[key].summary,
+                text: items[key].text,
+                userId: items[key].userId,
               },
             ];
           }
@@ -131,40 +131,38 @@ export default {
         this.error = true;
       }
     },
-
     clickRow(row) {
       console.log(row);
     },
-
-    editMode(ong) {
-      this.editingOng = Object.assign({}, ong);
+    editMode(need) {
+      this.editingNeed = Object.assign({}, need);
       this.editing = true;
-      this.$refs.ongDialog.editing = true;
-      this.$refs.ongDialog.show();
+      this.$refs.needDialog.editing = true;
+      this.$refs.needDialog.show();
     },
-
-    addOng(ong) {
+    addNeed(need) {
       this.editing = true;
-      this.editOng = ong;
-      this.ongs = [...this.ongs, ong];
+      this.editNeed = need;
+      this.needs = [...this.needs, need];
     },
-    
-    editOng(id, data) {
-      this.ongs = this.ongs.map((ong) => (ong.id === id ? data : ong));
+    editNeed(id, data) {
+      this.needs = this.needs.map((need) =>
+        need.id === id ? data : need
+      );
     },
-
-    setEditingOng(ong) {
-      this.editingOng = Object.assign({}, ong);
+    setEditingNeed(need) {
+      this.editingNeed = Object.assign({}, need);
     },
-
-    async deleteOng(id) {
+    async deleteNeed(id) {
       let errorMessage = "Não foi possível executar a remoção 😞";
       this.loading = true;
       try {
         await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
           method: "DELETE",
         });
-        this.ongs = this.ongs.filter((ong) => ong.id !== id);
+        this.needs = this.needs.filter(
+          (need) => need.id !== id
+        );
         this.loading = false;
         this.successMessage = "Removido com sucesso 😁";
         this.success = true;
@@ -175,15 +173,14 @@ export default {
         this.error = true;
       }
     },
-
     closeDialog() {
       this.success = false;
       this.successMessage = "";
       this.error = false;
       this.errorMessage = "";
-      this.editingOng = Object.assign({}, this.ongObj);
+      this.editingNeed = Object.assign({}, this.needObj);
       this.editing = false;
-      console.log(this.editingOng);
+      console.log(this.editingNeed);
       this.dialog = false;
     },
   },
@@ -191,7 +188,7 @@ export default {
 </script>
 
 <style>
-.ong-icon-text {
+.need-icon-text {
   padding-left: 5px;
 }
 </style>

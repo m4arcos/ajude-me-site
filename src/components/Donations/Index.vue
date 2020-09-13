@@ -31,7 +31,7 @@
             :items="donations"
             :search="search"
             :loading="loading"
-            loading-text="Buscando os pacientes..."
+            loading-text="Buscando os dados..."
             @dblclick:row="clickRow"
           >
             <v-alert v-if="success" type="success">{{ successMessage }}</v-alert>

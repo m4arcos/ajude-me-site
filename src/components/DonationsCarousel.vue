@@ -1,6 +1,9 @@
 <template>
   <v-sheet class="mx-auto" elevation="8" max-width="85%">
-    <h4 class="headline text-left carousel-title">{{ title }}</h4>
+    <h4 class="headline text-left carousel-title">
+      <v-icon>{{icon}}</v-icon>
+      {{ title }}
+    </h4>
     <v-slide-group v-model="model" class="pa-4 carousel-group" show-arrows>
       <v-slide-item v-for="item in items" :key="item.id" v-slot:default="{ active, toggle }">
         <v-card
@@ -12,9 +15,7 @@
         >
           <v-card-title class="headline font-weight-bold">{{ item.title }}</v-card-title>
 
-          <v-card-text
-            class="text-left"
-          >{{ item.summary }}</v-card-text>
+          <v-card-text class="text-left">{{ item.summary }}</v-card-text>
           <v-card-actions>
             <v-btn class="font-weight-bold" text>Saiba mais...</v-btn>
           </v-card-actions>
@@ -42,7 +43,8 @@ export default {
   name: "donations-carousel",
   props: {
     title: String,
-    items: {}
+    icon: String,
+    items: {},
   },
   data: () => ({
     model: null,

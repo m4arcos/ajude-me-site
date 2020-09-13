@@ -26,7 +26,7 @@
       </v-container>
     </v-main>
     <v-footer color="secondary" app>
-      <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
+      <span class="white--text">&copy; Marcos Medeiros Rodrigues - {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
