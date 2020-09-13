@@ -1,24 +1,32 @@
 {
     "items": [
         {
+            "id": 1,
             "title": "Preciso de ajuda 1",
             "summary": "Estou precisando de ajuda",
-            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
+            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?",
+            "userId": 1
         },
         {
+            "id": 2,
             "title": "Preciso de ajuda 2",
             "summary": "Estou precisando de ajuda",
-            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
+            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?",
+            "userId": 1
         },
         {
+            "id": 3,
             "title": "Preciso de ajuda 3",
             "summary": "Estou precisando de ajuda",
-            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
+            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?",
+            "userId": 1
         },
         {
+            "id": 4,
             "title": "Preciso de ajuda 4",
             "summary": "Estou precisando de ajuda",
-            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?"
+            "text": "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it?",
+            "userId": 1
         }
     ]
 }

@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card elevation="3">
           <v-card-title>
-            <span>Preciso de ajuda!</span>
+            <span>Usuários</span>
             <v-spacer></v-spacer>
             <v-text-field
               v-model="search"
@@ -15,20 +15,20 @@
             ></v-text-field>
             <v-spacer></v-spacer>
 
-            <need-dialog
-              ref="needDialog"
-              :need="editingNeed"
-              :needs="needs"
+            <user-dialog
+              ref="userDialog"
+              :user="editingUser"
+              :users="users"
               :editing="editing"
-              @add:need="addNeed"
-              @edit:need="editNeed"
-              @set:editing-need="setEditingNeed"
+              @add:user="addUser"
+              @edit:user="editUser"
+              @set:editing-user="setEditingUser"
             />
           </v-card-title>
           <v-data-table
             class="elevation-1"
             :headers="headers"
-            :items="needs"
+            :items="users"
             :search="search"
             :loading="loading"
             loading-text="Buscando os dados..."
@@ -38,7 +38,7 @@
             <v-alert v-if="error" type="error">{{ errorMessage }}</v-alert>
             <template v-slot:item.actions="{ item }">
               <v-icon small class="mr-2" @click="editMode(item)">mdi-pencil</v-icon>
-              <v-icon small @click="deleteNeed(item.id)">mdi-delete</v-icon>
+              <v-icon small @click="deleteUser(item.id)">mdi-delete</v-icon>
             </template>
           </v-data-table>
         </v-card>
@@ -60,15 +60,15 @@
 </template>
 
 <script>
-import NeedDialog from "@/components/Needs/NeedDialog.vue";
+import UserDialog from "@/components/Users/UserDialog.vue";
 export default {
-  name: "needs-index",
+  name: "users-index",
   components: {
-    NeedDialog,
+    UserDialog,
   },
   data() {
     return {
-      needs: [],
+      users: [],
       search: "",
       loading: false,
       editing: false,
@@ -76,47 +76,47 @@ export default {
       successMessage: "",
       error: false,
       errorMessage: "",
-      editingNeed: {},
-      needObj: {
+      editingUser: {},
+      userObj: {
         id: null,
-        title: "",
-        summary: "",
-        text: "",
-        userId: "",
+        name: "",
+        owner: "",
+        mail: "",
+        phone: "",
+        cellphone: "",
       },
       headers: [
         { text: "ID", value: "id" },
-        { text: "Titulo", value: "title" },
-        { text: "Resumo", value: "summary" },
+        { text: "Nome", value: "name" },
+        { text: "Responsável", value: "owner" },
         { text: "Actions", value: "actions", sortable: false },
       ],
     };
   },
   mounted() {
-    this.editingNeed = Object.assign({}, this.needObj);
-    this.$emit("update:pageTitle", "Preciso de ajuda!");
-    this.getNeeds();
+    this.editingUser = Object.assign({}, this.userObj);
+    this.$emit("update:pageTitle", "Usuários");
+    this.getUsers();
   },
   methods: {
-    async getNeeds() {
+    async getUsers() {
       this.loading = true;
       let errorMessage = "Não foi possível buscar os dados 😞";
       try {
-        const response = await fetch(
-          "http://localhost:8080/mocks/needs.json"
-        );
+        const response = await fetch("http://localhost:8080/mocks/users.json");
         if (response.ok) {
           const data = await response.json();
           const items = data["items"];
           for (var key in items) {
-            this.needs = [
-              ...this.needs,
+            this.users = [
+              ...this.users,
               {
                 id: items[key].id,
-                title: items[key].title,
-                summary: items[key].summary,
-                text: items[key].text,
-                userId: items[key].userId,
+                name: items[key].name,
+                owner: items[key].owner,
+                mail: items[key].mail,
+                phone: items[key].phone,
+                cellphone: items[key].cellphone,
               },
             ];
           }
@@ -131,38 +131,40 @@ export default {
         this.error = true;
       }
     },
+
     clickRow(row) {
       console.log(row);
     },
-    editMode(need) {
-      this.editingNeed = Object.assign({}, need);
+
+    editMode(user) {
+      this.editingUser = Object.assign({}, user);
       this.editing = true;
-      this.$refs.needDialog.editing = true;
-      this.$refs.needDialog.show();
+      this.$refs.userDialog.editing = true;
+      this.$refs.userDialog.show();
     },
-    addNeed(need) {
+
+    addUser(user) {
       this.editing = true;
-      this.editNeed = need;
-      this.needs = [...this.needs, need];
+      this.editUser = user;
+      this.users = [...this.users, user];
     },
-    editNeed(id, data) {
-      this.needs = this.needs.map((need) =>
-        need.id === id ? data : need
-      );
+    
+    editUser(id, data) {
+      this.users = this.users.map((user) => (user.id === id ? data : user));
     },
-    setEditingNeed(need) {
-      this.editingNeed = Object.assign({}, need);
+
+    setEditingUser(user) {
+      this.editingUser = Object.assign({}, user);
     },
-    async deleteNeed(id) {
+
+    async deleteUser(id) {
       let errorMessage = "Não foi possível executar a remoção 😞";
       this.loading = true;
       try {
         await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
           method: "DELETE",
         });
-        this.needs = this.needs.filter(
-          (need) => need.id !== id
-        );
+        this.users = this.users.filter((user) => user.id !== id);
         this.loading = false;
         this.successMessage = "Removido com sucesso 😁";
         this.success = true;
@@ -173,14 +175,15 @@ export default {
         this.error = true;
       }
     },
+
     closeDialog() {
       this.success = false;
       this.successMessage = "";
       this.error = false;
       this.errorMessage = "";
-      this.editingNeed = Object.assign({}, this.needObj);
+      this.editingUser = Object.assign({}, this.userObj);
       this.editing = false;
-      console.log(this.editingNeed);
+      console.log(this.editingUser);
       this.dialog = false;
     },
   },
@@ -188,7 +191,7 @@ export default {
 </script>
 
 <style>
-.need-icon-text {
+.user-icon-text {
   padding-left: 5px;
 }
 </style>

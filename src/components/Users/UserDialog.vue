@@ -2,16 +2,16 @@
   <v-dialog v-model="dialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-        <v-icon small>mdi-account-group</v-icon>
-        <span class="ong-icon-text">Nova ONG</span>
+        <v-icon small>fas fa-users</v-icon>
+        <span class="user-icon-text">Novo Usuário</span>
       </v-btn>
     </template>
     <v-card>
       <v-card-title>
         <span class="headline">
-          <v-icon big color="primary">mdi-account-group</v-icon>
-          <span v-if="!editing" class="ong-icon-text">Cadastrar ONG</span>
-          <span v-else class="ong-icon-text">ONG</span>
+          <v-icon big color="primary">fas fa-users</v-icon>
+          <span v-if="!editing" class="user-icon-text">Cadastrar Usuário</span>
+          <span v-else class="user-icon-text">Usuário</span>
         </span>
       </v-card-title>
       <v-card-text>
@@ -20,24 +20,24 @@
         <v-alert v-if="error" type="error">{{ errorMessage }}</v-alert>
         <v-row>
           <v-col cols="12">
-            <v-text-field label="Nome" v-model="ong.name" required placeholder="Nome da ONG"></v-text-field>
+            <v-text-field label="Nome" v-model="user.name" required placeholder="Nome da ONG"></v-text-field>
           </v-col>
           <v-col cols="12">
             <v-text-field
               label="Responsável"
-              v-model="ong.owner"
+              v-model="user.owner"
               required
               placeholder="Nome do Responsável"
             ></v-text-field>
           </v-col>
           <v-col cols="12">
-            <v-text-field label="E-mail" v-model="ong.mail" placeholder="E-mail para contato"></v-text-field>
+            <v-text-field label="E-mail" v-model="user.mail" placeholder="E-mail para contato"></v-text-field>
           </v-col>
           <v-col cols="6">
-            <v-text-field label="Telefone" v-model="ong.phone"></v-text-field>
+            <v-text-field label="Telefone" v-model="user.phone"></v-text-field>
           </v-col>
           <v-col cols="6">
-            <v-text-field label="Celular" v-model="ong.cellphone"></v-text-field>
+            <v-text-field label="Celular" v-model="user.cellphone"></v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
@@ -47,7 +47,7 @@
         <v-btn
           color="primary darken-1"
           text
-          @click="editing ? editOng(ong.id, ong) : createOng(ong)"
+          @click="editing ? editUser(user.id, user) : createUser(user)"
         >Salvar</v-btn>
       </v-card-actions>
     </v-card>
@@ -56,9 +56,9 @@
 
 <script>
 export default {
-  name: "ong-dialog",
+  name: "user-dialog",
   props: {
-    ong: {},
+    user: {},
   },
   data() {
     return {
@@ -69,7 +69,7 @@ export default {
       errorMessage: "",
       success: false,
       successMessage: "",
-      ongObj: {
+      userObj: {
         id: null,
         name: "",
         owner: "",
@@ -87,12 +87,12 @@ export default {
       this.errorMessage = "";
       this.dialog = false;
       this.editing = false;
-      this.$emit("set:editing-ong", this.ongObj);
+      this.$emit("set:editing-user", this.userObj);
     },
     show() {
       this.dialog = true;
     },
-    async createOng(newOng) {
+    async createUser(newUser) {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
@@ -101,7 +101,7 @@ export default {
           "https://jsonplaceholder.typicode.com/users",
           {
             method: "POST",
-            body: JSON.stringify(newOng),
+            body: JSON.stringify(newUser),
             headers: { "Content-type": "application/json; charset=UTF-8" },
           }
         );
@@ -109,18 +109,18 @@ export default {
         this.loading = false;
         this.success = true;
         this.successMessage = "Criado com sucesso! 😁";
-        this.ong.id = data.id;
+        this.user.id = data.id;
         this.editing = true;
-        this.$emit("add:ong", data);
+        this.$emit("add:user", data);
       } catch (error) {
         this.loading = false;
         this.error = true;
         this.errorMessage = "Não foi possível criar 😞";
-        this.$emit("set:editing-ong", this.ongObj);
+        this.$emit("set:editing-user", this.userObj);
         console.error(error);
       }
     },
-    async editOng(id, ong) {
+    async editUser(id, user) {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
@@ -129,12 +129,12 @@ export default {
           `https://jsonplaceholder.typicode.com/users/${id}`,
           {
             method: "PUT",
-            body: JSON.stringify(ong),
+            body: JSON.stringify(user),
             headers: { "Content-type": "application/json; charset=UTF-8" },
           }
         );
         const data = await response.json();
-        this.$emit("edit:ong", id, data);
+        this.$emit("edit:user", id, data);
         this.loading = false;
         this.success = true;
         this.successMessage = "Salvo com sucesso 😁";
@@ -142,7 +142,7 @@ export default {
         this.loading = false;
         this.error = true;
         this.errorMessage = "Não foi possível alterar 😟";
-        this.$emit("set:editing-ong", this.ongObj);
+        this.$emit("set:editing-user", this.userObj);
         console.error(error);
       }
     },

@@ -36,6 +36,11 @@ export default {
           route: "needs",
           icon: "fas fa-hands",
           title: "Preciso de ajuda"
+        },
+        {
+          route: "users",
+          icon: "fas fa-users",
+          title: "Usuários"
         }
       ]
     };
