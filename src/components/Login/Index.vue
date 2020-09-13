@@ -15,10 +15,10 @@
                 <v-form>
                   <v-text-field
                     prepend-icon="mdi-account"
-                    label="Nome"
-                    v-model="user.name"
+                    label="E-mail"
+                    v-model="user.mail"
                     required
-                    :error="(submitting && invalidName)"
+                    :error="(submitting && invalidMail)"
                     @focus="clearStatus"
                   ></v-text-field>
 
@@ -51,7 +51,7 @@ export default {
   name: "Login",
   data: () => ({
     user: {
-      name: "",
+      mail: "",
       password: "",
     },
     submitting: false,
@@ -60,7 +60,7 @@ export default {
     success: false,
     successMessage: "",
     mockAccount: {
-      name: "user",
+      mail: "m4arcos@gmail.com",
       password: "pass",
     },
   }),
@@ -68,13 +68,14 @@ export default {
     login() {
       this.submitting = true;
 
-      if (this.invalidName || this.invalidPassword) {
+      if (this.invalidMail || this.invalidPassword) {
         this.error = true;
         this.errorMessage = "Usuário ou senha inválidos";
 
         return;
       }
 
+        this.user.name = "Marcos Medeiros - Fixo";
         this.$emit("authenticated", this.user);
     },
 
@@ -86,8 +87,8 @@ export default {
     },
   },
   computed: {
-    invalidName() {
-      return (this.user.name === "") || (this.mockAccount.name != this.user.name);
+    invalidMail() {
+      return (this.user.mail === "") || (this.mockAccount.mail != this.user.mail);
     },
 
     invalidPassword() {

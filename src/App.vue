@@ -1,17 +1,34 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-if="isAuthenticated" v-model="drawer" app class="grey lighten-5">
+      <template v-slot:prepend>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img :src="getGravarUrl(user.mail)" />
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ user.name }}</v-list-item-title>
+            <v-list-item-subtitle>{{ user.mail }}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+
+      <v-divider></v-divider>
       <navigation-menu />
+      <template v-slot:append>
+        <div class="pa-2 text-center">
+          <v-btn color="red darken-4 white--text" dark v-bind="attrs" v-on="on">
+            <v-icon small>fas fa-sign-out-alt</v-icon>
+            <span class="user-icon-text">Sair</span>
+          </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-app-bar v-if="isAuthenticated" app color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>{{pageTitle}}</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <span class="user-name" style="margin-right: 15px">Fulano de Tal</span>
-      <v-avatar color="secondary">
-        <v-icon dark>mdi-account-circle</v-icon>
-      </v-avatar>
     </v-app-bar>
 
     <v-main v-if="isAuthenticated" class="bodyBgColor">
@@ -41,6 +58,8 @@
 
 <script>
 import NavigationMenu from "./components/NavigationMenu.vue";
+import md5 from "md5";
+
 export default {
   name: "App",
   components: {
@@ -52,12 +71,18 @@ export default {
   data: () => ({
     drawer: true,
     authenticated: false,
+    user: {
+      name: "",
+      mail: "",
+    },
     pageTitle: "Ajude.me",
   }),
   mounted() {
     if (!this.isAuthenticated) {
       this.$router.replace({ name: "login" });
     }
+
+    this.user = this.getSessionUser();
   },
   methods: {
     updatePageTitle(title) {
@@ -65,16 +90,27 @@ export default {
     },
 
     setAuthenticated(user) {
-      this.authenticated = true;
+      this.user = user;
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("authenticated", true);
+      this.authenticated = true;
       this.isAuthenticated;
       this.$router.replace({ name: "home" });
+    },
+
+    getGravarUrl(mail) {
+      return "https://www.gravatar.com/avatar/" + md5(mail);
+    },
+
+    getSessionUser() {
+      const user = localStorage.user;
+
+      return user ? JSON.parse(user) : false;
     },
   },
   computed: {
     isAuthenticated() {
-      const user = localStorage.user;
+      const user = this.getSessionUser;
       const authenticated = localStorage.authenticated;
       return (user && authenticated) || this.authenticated;
     },
