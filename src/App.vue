@@ -1,8 +1,15 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-if="isAuthenticated" v-model="drawer" app class="grey lighten-5">
+    <v-navigation-drawer
+      v-if="isAuthenticated"
+      v-model="drawer"
+      :mini-variant.sync="mini"
+      :expand-on-hover="true"
+      app
+      class="grey lighten-5"
+    >
       <template v-slot:prepend>
-        <v-list-item two-line>
+        <v-list-item two-line class="px-2">
           <v-list-item-avatar>
             <img :src="getGravarUrl(user.mail)" />
           </v-list-item-avatar>
@@ -17,12 +24,14 @@
       <v-divider></v-divider>
       <navigation-menu />
       <template v-slot:append>
-        <div class="pa-2 text-center">
-          <v-btn color="red darken-4 white--text" dark v-bind="attrs" v-on="on">
-            <v-icon small>fas fa-sign-out-alt</v-icon>
-            <span class="user-icon-text">Sair</span>
-          </v-btn>
-        </div>
+        <v-list-item @click="logout()">
+          <v-list-item-action>
+            <v-icon>fas fa-sign-out-alt</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Sair</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </template>
     </v-navigation-drawer>
 
@@ -71,6 +80,7 @@ export default {
   data: () => ({
     drawer: true,
     authenticated: false,
+    mini: true,
     user: {
       name: "",
       mail: "",
@@ -107,12 +117,21 @@ export default {
 
       return user ? JSON.parse(user) : false;
     },
+
+    logout() {
+      localStorage.removeItem("user");
+      localStorage.removeItem("authenticated");
+
+      this.user = {};
+      this.authenticated = false;
+      this.$router.replace({ name: "login" });
+    },
   },
   computed: {
     isAuthenticated() {
-      const user = this.getSessionUser;
+      // const user = this.getSessionUser;
       const authenticated = localStorage.authenticated;
-      return (user && authenticated) || this.authenticated;
+      return (this.user && authenticated) || this.authenticated;
     },
   },
 };
