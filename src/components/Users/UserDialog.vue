@@ -23,14 +23,6 @@
             <v-text-field label="Nome" v-model="user.name" required placeholder="Nome da ONG"></v-text-field>
           </v-col>
           <v-col cols="12">
-            <v-text-field
-              label="Responsável"
-              v-model="user.owner"
-              required
-              placeholder="Nome do Responsável"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
             <v-text-field label="E-mail" v-model="user.mail" placeholder="E-mail para contato"></v-text-field>
           </v-col>
           <v-col cols="6">
@@ -72,7 +64,6 @@ export default {
       userObj: {
         id: null,
         name: "",
-        owner: "",
         mail: "",
         phone: "",
         cellphone: "",

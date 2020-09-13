@@ -80,7 +80,6 @@ export default {
       userObj: {
         id: null,
         name: "",
-        owner: "",
         mail: "",
         phone: "",
         cellphone: "",
@@ -88,7 +87,6 @@ export default {
       headers: [
         { text: "ID", value: "id" },
         { text: "Nome", value: "name" },
-        { text: "Responsável", value: "owner" },
         { text: "Actions", value: "actions", sortable: false },
       ],
     };
@@ -113,7 +111,6 @@ export default {
               {
                 id: items[key].id,
                 name: items[key].name,
-                owner: items[key].owner,
                 mail: items[key].mail,
                 phone: items[key].phone,
                 cellphone: items[key].cellphone,
