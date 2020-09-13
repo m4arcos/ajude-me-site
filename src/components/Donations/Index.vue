@@ -61,6 +61,8 @@
 
 <script>
 import DonationDialog from "@/components/Donations/DonationDialog.vue";
+import config from "../../configs/api";
+
 export default {
   name: "donations-index",
   components: {
@@ -103,7 +105,7 @@ export default {
       let errorMessage = "Não foi possível buscar os dados 😞";
       try {
         const response = await fetch(
-          "http://localhost:8080/mocks/donations.json"
+          config.address + "/donations"
         );
         if (response.ok) {
           const data = await response.json();
@@ -116,7 +118,7 @@ export default {
                 title: items[key].title,
                 summary: items[key].summary,
                 text: items[key].text,
-                userId: items[key].userId,
+                userId: items[key].user_id,
               },
             ];
           }
@@ -156,8 +158,10 @@ export default {
     async deleteDonation(id) {
       let errorMessage = "Não foi possível executar a remoção 😞";
       this.loading = true;
+      let apiAddress = config.address + '/donations/' + id;
+
       try {
-        await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+        await fetch(apiAddress, {
           method: "DELETE",
         });
         this.donations = this.donations.filter(
