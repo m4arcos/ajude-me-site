@@ -84,7 +84,7 @@ export default {
         title: "",
         summary: "",
         text: "",
-        userId: "",
+        user_id: "",
       },
       headers: [
         { text: "ID", value: "id" },
@@ -118,7 +118,7 @@ export default {
                 title: items[key].title,
                 summary: items[key].summary,
                 text: items[key].text,
-                userId: items[key].user_id,
+                user_id: items[key].user_id,
               },
             ];
           }

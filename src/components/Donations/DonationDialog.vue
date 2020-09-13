@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import config from "../../configs/api";
+
 export default {
   name: "donation-dialog",
   props: {
@@ -73,7 +75,7 @@ export default {
         title: "",
         summary: "",
         text: "",
-        userId: "",
+        user_id: "",
       },
     };
   },
@@ -94,9 +96,14 @@ export default {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
+
+      newDonation.user_id = 1;
+
+      let apiAddress = config.address + '/donations';
+
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users",
+          apiAddress,
           {
             method: "POST",
             body: JSON.stringify(newDonation),
@@ -122,9 +129,13 @@ export default {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
+      
+      donation.user_id = 1;
+
+      let apiAddress = config.address + '/donations/' + id;
       try {
         const response = await fetch(
-          `https://jsonplaceholder.typicode.com/users/${id}`,
+          apiAddress,
           {
             method: "PUT",
             body: JSON.stringify(donation),

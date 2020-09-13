@@ -61,6 +61,8 @@
 
 <script>
 import NeedDialog from "@/components/Needs/NeedDialog.vue";
+import config from "../../configs/api";
+
 export default {
   name: "needs-index",
   components: {
@@ -82,7 +84,7 @@ export default {
         title: "",
         summary: "",
         text: "",
-        userId: "",
+        user_id: "",
       },
       headers: [
         { text: "ID", value: "id" },
@@ -103,7 +105,7 @@ export default {
       let errorMessage = "Não foi possível buscar os dados 😞";
       try {
         const response = await fetch(
-          "http://localhost:8080/mocks/needs.json"
+          config.address + "/needs"
         );
         if (response.ok) {
           const data = await response.json();
@@ -116,7 +118,7 @@ export default {
                 title: items[key].title,
                 summary: items[key].summary,
                 text: items[key].text,
-                userId: items[key].userId,
+                user_id: items[key].user_id,
               },
             ];
           }
@@ -156,8 +158,10 @@ export default {
     async deleteNeed(id) {
       let errorMessage = "Não foi possível executar a remoção 😞";
       this.loading = true;
+      let apiAddress = config.address + '/needs/' + id;
+
       try {
-        await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+        await fetch(apiAddress, {
           method: "DELETE",
         });
         this.needs = this.needs.filter(
