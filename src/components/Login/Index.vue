@@ -10,6 +10,7 @@
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
+                <v-progress-linear v-if="loading" indeterminate color="primary"></v-progress-linear>
                 <v-alert v-if="success" type="success">{{ successMessage }}</v-alert>
                 <v-alert v-if="error" type="error">{{ errorMessage }}</v-alert>
                 <v-form>
@@ -47,6 +48,8 @@
 </template>
 
 <script>
+import config from "../../configs/api";
+
 export default {
   name: "Login",
   data: () => ({
@@ -54,6 +57,7 @@ export default {
       mail: "",
       password: "",
     },
+    loading: false,
     submitting: false,
     error: false,
     errorMessage: "",
@@ -75,8 +79,35 @@ export default {
         return;
       }
 
-        this.user.name = "Marcos Medeiros - Fixo";
+      this.auth();
+    },
+
+    async auth() {
+      this.loading = true;
+
+      let apiAddress = config.address + '/auth';
+
+      try {
+        const response = await fetch(
+          apiAddress,
+          {
+            method: "POST",
+            body: JSON.stringify(this.user),
+            headers: { "Content-type": "application/json; charset=UTF-8" },
+          }
+        );
+        const data = await response.json();
+        this.loading = false;
+        this.success = true;
+        this.successMessage = "Autenticado com sucesso! 😁";
+        this.user = data;
         this.$emit("authenticated", this.user);
+      } catch (error) {
+        this.loading = false;
+        this.error = true;
+        this.errorMessage = "Não foi possível autenticar 😞";
+        console.error(error);
+      }
     },
 
     clearStatus() {
