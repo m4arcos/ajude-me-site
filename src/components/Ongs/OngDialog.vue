@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import config from "../../configs/api";
+
 export default {
   name: "ong-dialog",
   props: {
@@ -96,9 +98,11 @@ export default {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
+      let apiAddress = config.address + '/ongs';
+
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users",
+          apiAddress,
           {
             method: "POST",
             body: JSON.stringify(newOng),
@@ -124,9 +128,11 @@ export default {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
+
+      let apiAddress = config.address + '/ongs/' + id;
       try {
         const response = await fetch(
-          `https://jsonplaceholder.typicode.com/users/${id}`,
+          apiAddress,
           {
             method: "PUT",
             body: JSON.stringify(ong),

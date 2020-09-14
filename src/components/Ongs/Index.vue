@@ -61,6 +61,8 @@
 
 <script>
 import OngDialog from "@/components/Ongs/OngDialog.vue";
+import config from "../../configs/api";
+
 export default {
   name: "ongs-index",
   components: {
@@ -103,7 +105,7 @@ export default {
       this.loading = true;
       let errorMessage = "Não foi possível buscar os dados 😞";
       try {
-        const response = await fetch("http://localhost:8080/mocks/ongs.json");
+        const response = await fetch(config.address + "/ongs");
         if (response.ok) {
           const data = await response.json();
           const items = data["items"];
@@ -160,8 +162,10 @@ export default {
     async deleteOng(id) {
       let errorMessage = "Não foi possível executar a remoção 😞";
       this.loading = true;
+      let apiAddress = config.address + '/ongs/' + id;
+
       try {
-        await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+        await fetch(apiAddress, {
           method: "DELETE",
         });
         this.ongs = this.ongs.filter((ong) => ong.id !== id);

@@ -20,7 +20,10 @@
         <v-alert v-if="error" type="error">{{ errorMessage }}</v-alert>
         <v-row>
           <v-col cols="12">
-            <v-text-field label="Nome" v-model="user.name" required placeholder="Nome da ONG"></v-text-field>
+            <v-text-field label="Nome" v-model="user.name" required placeholder="Nome"></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field label="Senha" v-model="user.password" type="password" required placeholder="Senha"></v-text-field>
           </v-col>
           <v-col cols="12">
             <v-text-field label="E-mail" v-model="user.mail" placeholder="E-mail para contato"></v-text-field>
@@ -47,6 +50,8 @@
 </template>
 
 <script>
+import config from "../../configs/api";
+
 export default {
   name: "user-dialog",
   props: {
@@ -87,9 +92,11 @@ export default {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
+      let apiAddress = config.address + '/users';
+
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users",
+          apiAddress,
           {
             method: "POST",
             body: JSON.stringify(newUser),
@@ -115,9 +122,11 @@ export default {
       this.success = false;
       this.successMessage = "";
       this.loading = true;
+      let apiAddress = config.address + '/users/' + id;
+
       try {
         const response = await fetch(
-          `https://jsonplaceholder.typicode.com/users/${id}`,
+          apiAddress,
           {
             method: "PUT",
             body: JSON.stringify(user),

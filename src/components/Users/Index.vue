@@ -61,6 +61,8 @@
 
 <script>
 import UserDialog from "@/components/Users/UserDialog.vue";
+import config from "../../configs/api";
+
 export default {
   name: "users-index",
   components: {
@@ -102,7 +104,7 @@ export default {
       this.loading = true;
       let errorMessage = "Não foi possível buscar os dados 😞";
       try {
-        const response = await fetch("http://localhost:8080/mocks/users.json");
+        const response = await fetch(config.address + "/users");
         if (response.ok) {
           const data = await response.json();
           const items = data["items"];
@@ -158,8 +160,10 @@ export default {
     async deleteUser(id) {
       let errorMessage = "Não foi possível executar a remoção 😞";
       this.loading = true;
+      let apiAddress = config.address + '/users/' + id;
+
       try {
-        await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+        await fetch(apiAddress, {
           method: "DELETE",
         });
         this.users = this.users.filter((user) => user.id !== id);
