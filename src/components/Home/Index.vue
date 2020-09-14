@@ -21,6 +21,7 @@
 
 <script>
 import DonationsCarousel from "../DonationsCarousel.vue";
+import config from "../../configs/api";
 
 export default {
   name: "home-index",
@@ -50,8 +51,10 @@ export default {
 
     async getDonations() {
       try {
+        let apiAddress = config.address + '/donations';
+
         const response = await fetch(
-          "http://localhost:8080/mocks/donations.json"
+          apiAddress
         );
 
         const data = await response.json();
@@ -64,8 +67,10 @@ export default {
 
     async getNeedsHelp() {
       try {
+        let apiAddress = config.address + '/needs';
+
         const response = await fetch(
-          "http://localhost:8080/mocks/needs.json"
+          apiAddress
         );
 
         const data = await response.json();

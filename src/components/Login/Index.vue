@@ -85,19 +85,25 @@ export default {
     async auth() {
       this.loading = true;
 
-      let apiAddress = config.address + '/auth';
+      let apiAddress = config.address + "/auth";
 
       try {
-        const response = await fetch(
-          apiAddress,
-          {
-            method: "POST",
-            body: JSON.stringify(this.user),
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-          }
-        );
+        const response = await fetch(apiAddress, {
+          method: "POST",
+          body: JSON.stringify(this.user),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        });
         const data = await response.json();
+
         this.loading = false;
+
+        if (data.error) {
+          this.error = true;
+          this.errorMessage = "Usuário ou senha inválidos";
+
+          return;
+        }
+
         this.success = true;
         this.successMessage = "Autenticado com sucesso! 😁";
         this.user = data;
@@ -119,11 +125,11 @@ export default {
   },
   computed: {
     invalidMail() {
-      return (this.user.mail === "") || (this.mockAccount.mail != this.user.mail);
+      return this.user.mail === "";
     },
 
     invalidPassword() {
-      return (this.user.password === "") || (this.mockAccount.password != this.user.password);
+      return this.user.password === "";
     },
   },
 };
